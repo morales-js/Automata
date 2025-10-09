@@ -17,6 +17,9 @@ public class Automatas {
       // TODO code application logic here
         // verificando tercer commit
         // cuarto COMMIT
+        
+        // commit de prueba para ver el clone desde otro proyecto
+        // HOLA DESDE MI COMPUTADORA moralesjs_ :)
     }
     
 }

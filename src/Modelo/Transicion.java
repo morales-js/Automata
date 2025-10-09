@@ -8,6 +8,7 @@ package Modelo;
  *
  * @author moralesjs_
  */
+  //verificando tercer commit
 public class Transicion {
     private Estado origen;
     private Estado destino;

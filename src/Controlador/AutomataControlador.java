@@ -26,5 +26,6 @@ public class AutomataControlador {
     // verificanddo que si se agreugen los cambions en el commit
     // QUINTO COMMIT
     // Hola desde lenovo LOQ
+    // Hola desde DELL <
     
 }

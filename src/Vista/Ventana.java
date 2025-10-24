@@ -1,0 +1,643 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package Vista;
+
+import Controlador.AutomataControlador;
+import Modelo.Automata;
+import Modelo.LectorDeArchivo;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Image;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
+/**
+ *
+ * @author moralesjs_
+ */
+public class Ventana extends javax.swing.JFrame {
+    
+    private AutomataControlador controlador;
+    
+    public Ventana() {
+        initComponents();
+        controlador = new AutomataControlador(this); // Conecta vista con el controlador
+    }
+    
+  
+   
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        panel = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        btnMenu = new javax.swing.JButton();
+        btnAbrir = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        btnImagenAutomata = new javax.swing.JButton();
+        btnMenu1 = new javax.swing.JButton();
+        btnAnalizar = new javax.swing.JButton();
+        lblEstado = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        textArea = new javax.swing.JTextArea();
+        Estados = new javax.swing.JLabel();
+        Eaceptacion = new javax.swing.JLabel();
+        Simbolos = new javax.swing.JLabel();
+        Transiciones = new javax.swing.JLabel();
+        txtEstados = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaCadenas = new javax.swing.JTable();
+        EInicial1 = new javax.swing.JLabel();
+        txtAceptacion = new javax.swing.JTextField();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        miTablaTransiciones = new javax.swing.JTable();
+        EInicial2 = new javax.swing.JLabel();
+        txtSimbolos = new javax.swing.JTextField();
+        txtInicial = new javax.swing.JTextField();
+        txtFinal = new javax.swing.JTextField();
+        Eaceptacion1 = new javax.swing.JLabel();
+        btnReiniciar = new javax.swing.JButton();
+        lblImagen = new javax.swing.JLabel();
+        generarImagen1 = new javax.swing.JButton();
+        btnIniciar = new javax.swing.JButton();
+        btnSiguiente = new javax.swing.JButton();
+        btnAnterior1 = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel2.setBackground(new java.awt.Color(204, 204, 255));
+        jPanel2.setToolTipText("");
+
+        btnMenu.setText("Menú");
+
+        btnAbrir.setText("Abrir");
+        btnAbrir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAbrirActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Yu Gothic", 1, 24)); // NOI18N
+        jLabel1.setText("AFD");
+
+        btnImagenAutomata.setBackground(new java.awt.Color(204, 204, 255));
+        btnImagenAutomata.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/grafos.png"))); // NOI18N
+        btnImagenAutomata.setBorderPainted(false);
+        btnImagenAutomata.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImagenAutomataActionPerformed(evt);
+            }
+        });
+
+        btnMenu1.setText("Archivo");
+        btnMenu1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenu1ActionPerformed(evt);
+            }
+        });
+
+        btnAnalizar.setText("Analizar");
+        btnAnalizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnalizarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnMenu1)
+                    .addComponent(btnMenu)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnAbrir)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAnalizar)))
+                .addGap(102, 102, 102)
+                .addComponent(jLabel1)
+                .addGap(289, 289, 289)
+                .addComponent(btnImagenAutomata)
+                .addGap(40, 40, 40))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnMenu1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnMenu))
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAbrir)
+                    .addComponent(btnAnalizar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addComponent(btnImagenAutomata)
+                .addGap(0, 9, Short.MAX_VALUE))
+        );
+
+        panel.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 917, -1));
+
+        lblEstado.setBackground(new java.awt.Color(0, 153, 0));
+        lblEstado.setText("Estado (verifica que sea solo contenido de un AFD):");
+        panel.add(lblEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, -1, -1));
+
+        textArea.setEditable(false);
+        textArea.setColumns(20);
+        textArea.setLineWrap(true);
+        textArea.setRows(5);
+        jScrollPane2.setViewportView(textArea);
+
+        panel.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 108, 223, 231));
+
+        Estados.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
+        Estados.setText("Estados:");
+        panel.add(Estados, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 140, -1, 22));
+
+        Eaceptacion.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
+        Eaceptacion.setText("Cadenas:");
+        panel.add(Eaceptacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 260, -1, -1));
+
+        Simbolos.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
+        Simbolos.setText("Simbolos: ");
+        panel.add(Simbolos, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 110, -1, -1));
+
+        Transiciones.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
+        Transiciones.setText("Transiciones (mostrar en tiempo real por cual estado actual va):");
+        panel.add(Transiciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 380, -1, -1));
+        panel.add(txtEstados, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 140, 245, -1));
+
+        tablaCadenas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"", null},
+                {null, null}
+            },
+            new String [] {
+                "No.", "Cadenas"
+            }
+        ));
+        jScrollPane1.setViewportView(tablaCadenas);
+
+        panel.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 260, 282, 96));
+
+        EInicial1.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
+        EInicial1.setText("Estado Inicial:");
+        panel.add(EInicial1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 170, -1, -1));
+        panel.add(txtAceptacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 230, 245, -1));
+
+        miTablaTransiciones.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "ira estados", "ira simbolo", "ira simbolo"
+            }
+        ));
+        jScrollPane3.setViewportView(miTablaTransiciones);
+
+        panel.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 410, 282, 96));
+
+        EInicial2.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
+        EInicial2.setText("Estado Final:");
+        panel.add(EInicial2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 200, -1, -1));
+
+        txtSimbolos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSimbolosActionPerformed(evt);
+            }
+        });
+        panel.add(txtSimbolos, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 110, 245, -1));
+        panel.add(txtInicial, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 170, 245, -1));
+        panel.add(txtFinal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 200, 245, -1));
+
+        Eaceptacion1.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
+        Eaceptacion1.setText("Aceptacion");
+        panel.add(Eaceptacion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 230, -1, -1));
+
+        btnReiniciar.setText("reiniciar");
+        btnReiniciar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReiniciarActionPerformed(evt);
+            }
+        });
+        panel.add(btnReiniciar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 540, -1, -1));
+
+        lblImagen.setText("lblImagen");
+        panel.add(lblImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 410, 220, 120));
+
+        generarImagen1.setText("generarImagen");
+        generarImagen1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generarImagen1ActionPerformed(evt);
+            }
+        });
+        panel.add(generarImagen1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 410, -1, -1));
+
+        btnIniciar.setText("btnIniciar");
+        btnIniciar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIniciarActionPerformed(evt);
+            }
+        });
+        panel.add(btnIniciar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 450, -1, -1));
+
+        btnSiguiente.setText("siguiente");
+        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiguienteActionPerformed(evt);
+            }
+        });
+        panel.add(btnSiguiente, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 480, -1, -1));
+
+        btnAnterior1.setText("Anterior");
+        btnAnterior1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnterior1ActionPerformed(evt);
+            }
+        });
+        panel.add(btnAnterior1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 510, -1, -1));
+
+        getContentPane().add(panel, java.awt.BorderLayout.CENTER);
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    
+    private void btnImagenAutomataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImagenAutomataActionPerformed
+        // TODO add your handling code here
+        //JButton btnImagenAutomata = new JButton("Mi Botón");
+
+    }//GEN-LAST:event_btnImagenAutomataActionPerformed
+
+    
+    
+    private void mostrarAutomataEnInterfaz(Automata automata) {
+    txtSimbolos.setText(String.join(",", automata.getSimbolos()));
+    txtEstados.setText(String.join(",", automata.getEstados()));
+    txtInicial.setText(automata.getEstadoInicial());
+    txtFinal.setText(String.join(",", automata.getEstadosAceptacion()));
+
+    // Tabla de cadenas
+    DefaultTableModel modeloCadenas = (DefaultTableModel) tablaCadenas.getModel();
+    modeloCadenas.setRowCount(0);
+    int i = 1;
+    for (String cadena : automata.getCadenas()) {
+        modeloCadenas.addRow(new Object[]{i++, cadena});
+    }
+
+    // Tabla de transiciones
+    DefaultTableModel modeloTrans = (DefaultTableModel) miTablaTransiciones.getModel();
+    modeloTrans.setRowCount(0);
+    
+    for (Map.Entry<String, Map<String, String>> entrada : automata.getTransiciones().entrySet()) {
+        String estado = entrada.getKey();
+        Map<String, String> destinos = entrada.getValue();
+        modeloTrans.addRow(new Object[]{estado, destinos.get("0"), destinos.get("1")});
+    
+    }
+    }
+    
+    
+    private void btnAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fc = new JFileChooser();
+        if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            controlador.cargarArchivo(fc.getSelectedFile());
+        }
+         JFileChooser chooser = new JFileChooser();
+         int result = chooser.showOpenDialog(this);
+    
+        if (result == JFileChooser.APPROVE_OPTION) {
+        File archivoSeleccionado = chooser.getSelectedFile();
+
+        // Leer el archivo como texto y mostrarlo en el JTextArea
+        try (BufferedReader br = new BufferedReader(new FileReader(archivoSeleccionado))) {
+            StringBuilder contenido = new StringBuilder();
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                contenido.append(linea).append("\n");
+            }
+            textArea.setText(contenido.toString());
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error al leer el archivo: " + e.getMessage());
+        }
+
+        // Leer con tu lector de archivos y guardar el objeto Automata
+        Automata automata = LectorDeArchivo.leerDesdeArchivo(archivoSeleccionado);
+        mostrarAutomataEnInterfaz(automata);
+    }
+
+        
+        
+    }//GEN-LAST:event_btnAbrirActionPerformed
+
+    private void btnMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenu1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnMenu1ActionPerformed
+
+    private void txtSimbolosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSimbolosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSimbolosActionPerformed
+
+    private void btnAnalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnalizarActionPerformed
+        // TODO add your handling code here:
+          controlador.analizarCadenas();
+   
+    }//GEN-LAST:event_btnAnalizarActionPerformed
+
+    private void btnReiniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReiniciarActionPerformed
+        // TODO add your handling code here:
+    controlador.reiniciarSimulacion();
+
+    }//GEN-LAST:event_btnReiniciarActionPerformed
+
+    private void generarImagen1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generarImagen1ActionPerformed
+        // TODO add your handling code here:
+//        controlador.generarImagenAutomata();
+        controlador.generarImagenAutomata();
+    }//GEN-LAST:event_generarImagen1ActionPerformed
+
+    private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
+   controlador.iniciarSimulacion(tablaCadenas.getSelectedRow());
+    }//GEN-LAST:event_btnIniciarActionPerformed
+    
+    
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+        // TODO add your handling code here:
+     controlador.siguientePaso();
+    }//GEN-LAST:event_btnSiguienteActionPerformed
+
+    private void btnAnterior1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnterior1ActionPerformed
+        // TODO add your handling code here:
+        controlador.anteriorPaso();
+    }//GEN-LAST:event_btnAnterior1ActionPerformed
+
+    
+     public void mostrarDatos(Automata automata) {
+        // Aquí actualizas tus campos (símbolos, estados, etc.)
+        txtSimbolos.setText(String.join(",", automata.getSimbolos()));
+        txtEstados.setText(String.join(",", automata.getEstados()));
+        txtInicial.setText(automata.getEstadoInicial());
+        txtAceptacion.setText(String.join(",", automata.getEstadosAceptacion()));
+        
+        
+        System.out.println("🔍 Transiciones cargadas: " + automata.getTransiciones());
+
+ // 🔹 Construir encabezados dinámicos según los símbolos
+         String[] columnas = new String[automata.getSimbolos().size() + 1];
+         columnas[0] = "Estado";
+         for (int i = 0; i < automata.getSimbolos().size(); i++) {
+             columnas[i + 1] = "Símbolo " + automata.getSimbolos().get(i);
+         }
+         DefaultTableModel modeloTrans = new DefaultTableModel(columnas, 0);
+
+// 🔹 Llenar filas con cada transición
+         for (String estado : automata.getTransiciones().keySet()) {
+             Object[] fila = new Object[columnas.length];
+             fila[0] = estado;
+             for (int i = 0; i < automata.getSimbolos().size(); i++) {
+                 String simbolo = automata.getSimbolos().get(i);
+                 fila[i + 1] = automata.getTransiciones().get(estado).get(simbolo);
+             }
+             modeloTrans.addRow(fila);
+         }
+         miTablaTransiciones.setModel(modeloTrans);
+         
+         // Mostrar cadenas
+        DefaultTableModel cadenasModel = (DefaultTableModel) tablaCadenas.getModel();
+        cadenasModel.setRowCount(0);
+        int i = 1;
+        for (String cadena : automata.getCadenas()) {
+            cadenasModel.addRow(new Object[]{i++, cadena});
+        }
+    }
+
+     
+    public List<String> obtenerCadenas() {
+        List<String> cadenas = new ArrayList<>();
+        for (int i = 0; i < tablaCadenas.getRowCount(); i++) {
+            Object val = tablaCadenas.getValueAt(i, 1);
+            if (val != null && !val.toString().isEmpty()) {
+                cadenas.add(val.toString());
+            }
+        }
+        return cadenas;
+    }
+    
+    
+    
+
+
+
+    public void mostrarResultado(String cadena, boolean aceptada) {
+               JOptionPane.showMessageDialog(this, "Cadena " + cadena + " → " + (aceptada ? "ACEPTADA ✅" : "RECHAZADA ❌"));
+    }
+  
+    public void mostrarValidezAFD(boolean valido) {
+    if (valido) {
+        lblEstado.setText("✅ Contenido válido: corresponde a un AFD");
+        lblEstado.setForeground(new java.awt.Color(0, 128, 0)); // verde
+    } else {
+        lblEstado.setText("❌ Contenido inválido: no cumple las reglas de un AFD");
+        lblEstado.setForeground(java.awt.Color.RED);
+    }
+}
+    
+  public void mostrarImagen(String ruta) {
+    try {
+        ImageIcon icon = new ImageIcon(ruta);
+        Image img = icon.getImage().getScaledInstance(lblImagen.getWidth(), lblImagen.getHeight(), Image.SCALE_SMOOTH);
+        lblImagen.setIcon(new ImageIcon(img));
+    } catch (Exception e) {
+        System.out.println("Error al mostrar imagen: " + e.getMessage());
+    }
+}
+    
+    // -- 
+    
+        public void refrescarPaso(Modelo.Simulador simulador) {
+    if (simulador == null) return;
+
+    // Estado actual y paso (indice)
+    String estadoActual = simulador.getEstadoActual();
+    int indice = simulador.getIndice(); // número de símbolos ya procesados
+
+    // BUSCAR la fila que corresponde al estadoActual en la tabla de transiciones (col 0)
+    int filaResaltada = -1;
+    for (int r = 0; r < miTablaTransiciones.getRowCount(); r++) {
+        Object v = miTablaTransiciones.getValueAt(r, 0);
+        if (v != null && v.toString().equals(estadoActual)) {
+            filaResaltada = r;
+            break;
+        }
+    }
+
+    // Determinar columna para el símbolo procesado (col 1..n) mostrar
+    int colResaltada = -1;
+    if (indice > 0 && simulador.getPasos() != null && simulador.getPasos().size() >= indice) {
+        String simboloProcesado = simulador.getPasos().get(indice - 1).simbolo;
+        // Buscar en encabezados la columna que termina o contiene el símbolo
+        for (int c = 1; c < miTablaTransiciones.getColumnCount(); c++) {
+            String header = miTablaTransiciones.getColumnName(c);
+            // Normaliza: quitar mayúsc/minúsc y espacios
+            String h = header.trim();
+            if (h.endsWith(simboloProcesado) || h.equals(simboloProcesado) || h.contains(simboloProcesado)) {
+                colResaltada = c;
+                break;
+            }
+        }
+    }
+    
+  
+
+
+
+
+
+// -- Instalamos un renderer temporal que pinta la celda resaltada refrescar
+     // Copias finales para la clase interna (efectivamente final)
+    final int filaFinal = filaResaltada;
+    final int colFinal = colResaltada;
+
+    // Renderer que pinta la celda resaltada y el estado actual (col 0)
+    DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value,
+                                                       boolean isSelected, boolean hasFocus, int row, int column) {
+            Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            // Resetear colores por si acaso
+            c.setBackground(Color.WHITE);
+            c.setForeground(Color.BLACK);
+
+            if (filaFinal >= 0 && colFinal >= 0 && row == filaFinal && column == colFinal) {
+                c.setBackground(Color.YELLOW);                // celda transición (símbolo aplicado)
+            } else if (filaFinal >= 0 && row == filaFinal && column == 0) {
+                c.setBackground(new Color(173, 216, 230));    // fila del estado actual (col 0)
+            } else {
+                // mantener selección visual por defecto
+                if (isSelected) c.setBackground(table.getSelectionBackground());
+                else c.setBackground(Color.WHITE);
+            }
+            return c;
+        }
+    };
+
+    // Aplicar renderer a todas las columnas
+    for (int c = 0; c < miTablaTransiciones.getColumnCount(); c++) {
+        miTablaTransiciones.getColumnModel().getColumn(c).setCellRenderer(renderer);
+    }
+    miTablaTransiciones.repaint();
+
+    // Actualizar etiqueta de estado (puedes personalizar)
+    String texto = "Estado actual: " + (estadoActual == null ? "NULL" : estadoActual)
+                 + " | Paso: " + indice + "/" + (simulador.getPasos() == null ? 0 : simulador.getPasos().size());
+    lblEstado.setText(texto);
+
+    // Si terminó, mostrar resultado (opcional)
+    if (simulador.terminado()) {
+        boolean acept = simulador.aceptado();
+        JOptionPane.showMessageDialog(this, "Simulación terminada. Resultado: " + (acept ? "ACEPTADA" : "RECHAZADA"));
+    }
+    
+    
+    
+}
+    
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Ventana.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Ventana.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Ventana.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Ventana.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Ventana().setVisible(true);
+                
+                
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel EInicial1;
+    private javax.swing.JLabel EInicial2;
+    private javax.swing.JLabel Eaceptacion;
+    private javax.swing.JLabel Eaceptacion1;
+    private javax.swing.JLabel Estados;
+    private javax.swing.JLabel Simbolos;
+    private javax.swing.JLabel Transiciones;
+    private javax.swing.JButton btnAbrir;
+    private javax.swing.JButton btnAnalizar;
+    private javax.swing.JButton btnAnterior1;
+    private javax.swing.JButton btnImagenAutomata;
+    private javax.swing.JButton btnIniciar;
+    private javax.swing.JButton btnMenu;
+    private javax.swing.JButton btnMenu1;
+    private javax.swing.JButton btnReiniciar;
+    private javax.swing.JButton btnSiguiente;
+    private javax.swing.JButton generarImagen1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel lblEstado;
+    private javax.swing.JLabel lblImagen;
+    private javax.swing.JTable miTablaTransiciones;
+    private javax.swing.JPanel panel;
+    private javax.swing.JTable tablaCadenas;
+    private javax.swing.JTextArea textArea;
+    private javax.swing.JTextField txtAceptacion;
+    private javax.swing.JTextField txtEstados;
+    private javax.swing.JTextField txtFinal;
+    private javax.swing.JTextField txtInicial;
+    private javax.swing.JTextField txtSimbolos;
+    // End of variables declaration//GEN-END:variables
+}

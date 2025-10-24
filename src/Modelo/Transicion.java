@@ -10,31 +10,23 @@ package Modelo;
  */
   //verificando tercer commit
 public class Transicion {
-    private Estado origen;
-    private Estado destino;
+  private String desde;
     private String simbolo;
-    
-     public Transicion(Estado origen, Estado destino, String simbolo) {
-        this.origen = origen;
-        this.destino = destino;
+    private String hacia;
+
+    public Transicion(String desde, String simbolo, String hacia) {
+        this.desde = desde;
         this.simbolo = simbolo;
+        this.hacia = hacia;
     }
-
-    public Estado getOrigen() {
-        return origen;
-    }
-
-    public Estado getDestino() {
-        return destino;
-    }
-
-    public String getSimbolo() {
-        return simbolo;
-    }
+    
+     public String getDesde() { return desde; }
+    public String getSimbolo() { return simbolo; }
+    public String getHacia() { return hacia; }
 
     @Override
     public String toString() {
-        return origen.getNombre() + " --" + simbolo + "--> " + destino.getNombre();
+        return desde + " --" + simbolo + "→ " + hacia;
     }
-    
+            
 }

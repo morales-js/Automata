@@ -62,11 +62,13 @@ public Nuevo(java.awt.Frame parent, boolean modal) {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtarea = new javax.swing.JTextArea();
 
+        jPanel1.setBackground(new java.awt.Color(7, 65, 115));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Yu Gothic", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("AFD");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 50, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 70, -1, -1));
 
         btnnuevo.setText("Guardar");
         btnnuevo.addActionListener(new java.awt.event.ActionListener() {
@@ -74,13 +76,13 @@ public Nuevo(java.awt.Frame parent, boolean modal) {
                 btnnuevoActionPerformed(evt);
             }
         });
-        jPanel1.add(btnnuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 410, -1, 20));
+        jPanel1.add(btnnuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 410, -1, 20));
 
         txtarea.setColumns(20);
         txtarea.setRows(5);
         jScrollPane1.setViewportView(txtarea);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, -1, 300));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, -1, 300));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

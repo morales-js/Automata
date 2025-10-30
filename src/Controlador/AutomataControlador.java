@@ -32,10 +32,14 @@ public class AutomataControlador {
 
         // 🔹 Generar imagen base del grafo
         try {
-            GrafoGenerator.generarGrafo(automata, rutaImagen, null, null, null, null);
-            vista.mostrarImagen(rutaImagen + ".png");
+    // Limpia cualquier imagen anterior antes de crear una nueva
+            vista.limpiarImagen();
+
+            // Genera el grafo base una única vez
+            String ruta = GrafoGenerator.generarGrafo(automata, rutaImagen, null, null, null, null);
+            vista.mostrarImagen(ruta);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(vista, "No se pudo generar la imagen base del autómata.");
+            JOptionPane.showMessageDialog(vista, "No se pudo generar la imagen base del autómata: " + e.getMessage());
         }
     }
 
@@ -47,7 +51,8 @@ public class AutomataControlador {
         }
 
         for (String cadena : vista.obtenerCadenas()) {
-            boolean aceptada = automata.analizarCadena(cadena.replace(",", ""));
+            // NO remover comas aquí — pasar la cadena tal cual (ejemplo "1,0,1,0")
+            boolean aceptada = automata.analizarCadena(cadena);
             vista.mostrarResultado(cadena, aceptada);
         }
     }
@@ -148,4 +153,22 @@ public class AutomataControlador {
         JOptionPane.showMessageDialog(vista, "Error al generar la imagen: " + e.getMessage());
     }
 }
+    
+  public void crearNuevoAutomata() {
+    Vista.Nuevo nuevoDialog = new Vista.Nuevo(vista, true); // ← ahora sí es modal
+    nuevoDialog.setLocationRelativeTo(vista);
+    nuevoDialog.setVisible(true); // Espera hasta que se cierre el diálogo
+
+    Modelo.Automata nuevo = nuevoDialog.getAutomataCreado();
+    if (nuevo != null) {
+        this.automata = nuevo;
+        vista.mostrarDatos(automata);
+        vista.mostrarValidezAFD(automata.esAFDValido());
+        JOptionPane.showMessageDialog(vista, "Nuevo autómata cargado correctamente.");
+    } else {
+        JOptionPane.showMessageDialog(vista, "No se creó ningún autómata nuevo.");
+    }
+}
+
+
 }

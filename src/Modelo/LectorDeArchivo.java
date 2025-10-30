@@ -1,23 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Modelo;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 
-/**
- *
- * @author moralesjs_
- */
 public class LectorDeArchivo {
 
     public static Automata leerDesdeArchivo(File archivo) {
@@ -25,69 +10,105 @@ public class LectorDeArchivo {
 
         try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
             String linea;
+            List<String> transLines = new ArrayList<>();
+            List<String> cadenas = new ArrayList<>();
+            boolean leyendoTrans = false, leyendoCadenas = false;
+
             while ((linea = br.readLine()) != null) {
                 linea = linea.trim();
+                if (linea.isEmpty()) continue;
 
                 if (linea.startsWith("Simbolos:")) {
-                    String[] simbolos = linea.replace("Simbolos:", "").trim().split(",");
-                    automata.setSimbolos(Arrays.asList(simbolos));
-                } else if (linea.startsWith("Estados:")) {
-                    String[] estados = linea.replace("Estados:", "").trim().split(",");
-                    automata.setEstados(Arrays.asList(estados));
-                } else if (linea.startsWith("Estado inicial:")) {
+                    automata.setSimbolos(parseList(linea.replace("Simbolos:", "")));
+                    leyendoTrans = false; leyendoCadenas = false;
+                } 
+                else if (linea.startsWith("Estados:")) {
+                    automata.setEstados(parseList(linea.replace("Estados:", "")));
+                    leyendoTrans = false; leyendoCadenas = false;
+                } 
+                else if (linea.startsWith("Estado inicial:")) {
                     automata.setEstadoInicial(linea.replace("Estado inicial:", "").trim());
-                } else if (linea.startsWith("Estados de aceptación:")) {
-                    String[] acept = linea.replace("Estados de aceptación:", "").trim().split(",");
-                    automata.setEstadosAceptacion(Arrays.asList(acept));
-                } else if (linea.startsWith("Transiciones:")) {
-                    Map<String, Map<String, String>> transiciones = new HashMap<>();
+                    leyendoTrans = false; leyendoCadenas = false;
+                } 
+                else if (linea.startsWith("Estados de aceptación:") || linea.startsWith("Estado de aceptación:")) {
+                    automata.setEstadosAceptacion(parseList(linea.substring(linea.indexOf(":") + 1)));
+                    leyendoTrans = false; leyendoCadenas = false;
+                } 
+                else if (linea.startsWith("Transiciones:")) {
+                    leyendoTrans = true;
+                    leyendoCadenas = false;
+                    transLines.clear();
+                } 
+                else if (linea.startsWith("Cadenas a analizar:") || linea.startsWith("Cadenas:")) {
+                    leyendoTrans = false;
+                    leyendoCadenas = true;
+                } 
+                else {
+                    if (leyendoTrans) transLines.add(linea);
+                    else if (leyendoCadenas) cadenas.add(linea);
+                }
+            }
 
-                    // Leer todas las líneas de transiciones antes de "Cadenas a analizar:"
-                    List<String> lineasTrans = new ArrayList<>();
-                    while ((linea = br.readLine()) != null && !linea.startsWith("Cadenas a analizar:")) {
-                        linea = linea.trim();
-                        if (!linea.isEmpty()) {
-                            lineasTrans.add(linea);
-                        }
-                    }
+            // Crear mapa de transiciones
+            Map<String, Map<String, String>> transiciones = new HashMap<>();
+            List<String> simbolos = Optional.ofNullable(automata.getSimbolos()).orElse(new ArrayList<>());
+            List<String> estados = Optional.ofNullable(automata.getEstados()).orElse(new ArrayList<>());
 
-                    // Construir el mapa de transiciones según el orden de los estados
-                    List<String> estados = automata.getEstados();
-                    List<String> simbolos = automata.getSimbolos();
-
-                    for (int i = 0; i < lineasTrans.size() && i < estados.size(); i++) {
-                        String estado = estados.get(i);
-                        String[] destinos = lineasTrans.get(i).split(",");
-
+            if (!transLines.isEmpty()) {
+                boolean usaFlecha = transLines.stream().anyMatch(l -> l.contains("->"));
+                if (usaFlecha) {
+                    // formato tipo Q0->Q1,Q2,Q3
+                    for (String lineaT : transLines) {
+                        String[] partes = lineaT.split("->");
+                        if (partes.length != 2) continue;
+                        String origen = partes[0].trim();
+                        String[] destinos = partes[1].split(",");
                         Map<String, String> mapa = new HashMap<>();
-                        for (int j = 0; j < destinos.length && j < simbolos.size(); j++) {
-                            mapa.put(simbolos.get(j).trim(), destinos[j].trim());
+                        for (int i = 0; i < simbolos.size() && i < destinos.length; i++)
+                            mapa.put(simbolos.get(i), destinos[i].trim());
+                        transiciones.put(origen, mapa);
+                    }
+                } else {
+                    // formato compacto (una línea por estado)
+                    for (int i = 0; i < estados.size(); i++) {
+                        String estado = estados.get(i);
+                        Map<String, String> mapa = new HashMap<>();
+                        if (i < transLines.size()) {
+                            String[] destinos = transLines.get(i).split(",");
+                            for (int j = 0; j < simbolos.size() && j < destinos.length; j++)
+                                mapa.put(simbolos.get(j), destinos[j].trim());
+                        } else {
+                            // Si no hay línea, se autorreferencia (evita nulls)
+                            for (String s : simbolos) mapa.put(s, estado);
                         }
-
                         transiciones.put(estado, mapa);
                     }
-
-                    automata.setTransiciones(transiciones);
-
-                    // Leer cadenas
-                    if (linea != null && linea.startsWith("Cadenas a analizar:")) {
-                        List<String> cadenas = new ArrayList<>();
-                        while ((linea = br.readLine()) != null) {
-                            linea = linea.trim();
-                            if (!linea.isEmpty()) {
-                                cadenas.add(linea);
-                            }
-                        }
-                        automata.setCadenas(cadenas);
-                    }
                 }
-
             }
+
+            // asignar todo al autómata
+            automata.setTransiciones(transiciones);
+            automata.setCadenas(cadenas);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        // aseguramos que no haya nulls
+        if (automata.getSimbolos() == null) automata.setSimbolos(new ArrayList<>());
+        if (automata.getEstados() == null) automata.setEstados(new ArrayList<>());
+        if (automata.getEstadosAceptacion() == null) automata.setEstadosAceptacion(new ArrayList<>());
+        if (automata.getTransiciones() == null) automata.setTransiciones(new HashMap<>());
+        if (automata.getCadenas() == null) automata.setCadenas(new ArrayList<>());
         return automata;
+        
+    }
+
+    private static List<String> parseList(String linea) {
+        List<String> lista = new ArrayList<>();
+        for (String s : linea.split(",")) {
+            if (!s.trim().isEmpty()) lista.add(s.trim());
+        }
+        return lista;
     }
 }

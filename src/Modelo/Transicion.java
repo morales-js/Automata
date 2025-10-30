@@ -20,9 +20,17 @@ public class Transicion {
         this.hacia = hacia;
     }
     
-     public String getDesde() { return desde; }
-    public String getSimbolo() { return simbolo; }
-    public String getHacia() { return hacia; }
+    public String getDesde() {
+        return desde;
+    }
+
+    public String getSimbolo() {
+        return simbolo;
+    }
+
+    public String getHacia() {
+        return hacia;
+    }
 
     @Override
     public String toString() {

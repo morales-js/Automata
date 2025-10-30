@@ -14,49 +14,104 @@ import javax.swing.table.DefaultTableModel;
  * @author moralesjs_
  */
 public class Automata {
-    
-  private List<String> simbolos;
-    private List<String> estados;
-    private String estadoInicial;
-    private List<String> estadosAceptacion;
+    private List<String> simbolos = new ArrayList<>();
+    private List<String> estados = new ArrayList<>();
+    private String estadoInicial = "";
+    private List<String> estadosAceptacion = new ArrayList<>();
     private Map<String, Map<String, String>> transiciones;
-    private List<String> cadenas;
+    private List<String> cadenas = new ArrayList<>();
 
     // Getters y setters
-    public List<String> getSimbolos() { return simbolos; }
-    public void setSimbolos(List<String> simbolos) { this.simbolos = simbolos; }
+        public List<String> getSimbolos() {
+        return simbolos == null ? new ArrayList<>() : simbolos;
+    }
 
-    public List<String> getEstados() { return estados; }
-    public void setEstados(List<String> estados) { this.estados = estados; }
+    public void setSimbolos(List<String> simbolos) {
+        this.simbolos = simbolos == null ? new ArrayList<>() : simbolos;
+    }
 
-    public String getEstadoInicial() { return estadoInicial; }
-    public void setEstadoInicial(String estadoInicial) { this.estadoInicial = estadoInicial; }
+    public List<String> getEstados() {
+        return estados == null ? new ArrayList<>() : estados;
+    }
 
-    public List<String> getEstadosAceptacion() { return estadosAceptacion; }
-    public void setEstadosAceptacion(List<String> estadosAceptacion) { this.estadosAceptacion = estadosAceptacion; }
+    public void setEstados(List<String> estados) {
+        this.estados = estados == null ? new ArrayList<>() : estados;
+    }
 
-    public Map<String, Map<String, String>> getTransiciones() { return transiciones; }
-    public void setTransiciones(Map<String, Map<String, String>> transiciones) { this.transiciones = transiciones; }
+    public String getEstadoInicial() {
+        return estadoInicial;
+    }
 
-    public List<String> getCadenas() { return cadenas; }
-    public void setCadenas(List<String> cadenas) { this.cadenas = cadenas; }
+    public void setEstadoInicial(String estadoInicial) {
+        this.estadoInicial = estadoInicial;
+    }
+
+    public List<String> getEstadosAceptacion() {
+        return estadosAceptacion == null ? new ArrayList<>() : estadosAceptacion;
+    }
+
+    public void setEstadosAceptacion(List<String> estadosAceptacion) {
+        this.estadosAceptacion = estadosAceptacion == null ? new ArrayList<>() : estadosAceptacion;
+    }
+
+    public Map<String, Map<String, String>> getTransiciones() {
+        return transiciones;
+    }
+
+    public void setTransiciones(Map<String, Map<String, String>> transiciones) {
+        this.transiciones = transiciones;
+    }
+
+    public List<String> getCadenas() {
+        return cadenas == null ? new ArrayList<>() : cadenas;
+    }
+
+    public void setCadenas(List<String> cadenas) {
+        this.cadenas = cadenas == null ? new ArrayList<>() : cadenas;
+    }
+
 
     // 🔹 Método para analizar una cadena
     public boolean analizarCadena(String cadena) {
-        String estadoActual = estadoInicial;
+   if (cadena == null) return false;
 
-        for (char simbolo : cadena.toCharArray()) {
-            String s = String.valueOf(simbolo);
-            if (!transiciones.containsKey(estadoActual) || !transiciones.get(estadoActual).containsKey(s)) {
-                return false;
-            }
-            estadoActual = transiciones.get(estadoActual).get(s);
+    String estadoActual = estadoInicial;
+
+    // Determinar símbolos: si contiene comas -> split, si no -> cada char
+    String[] simbolosCadena;
+    if (cadena.contains(",")) {
+        simbolosCadena = cadena.split(",");
+    } else {
+        // convertir cada caracter en un símbolo string
+        simbolosCadena = new String[cadena.length()];
+        for (int i = 0; i < cadena.length(); i++) {
+            simbolosCadena[i] = String.valueOf(cadena.charAt(i));
         }
-
-        return estadosAceptacion.contains(estadoActual);
-        
-        
     }
+
+    for (String s : simbolosCadena) {
+        s = s.trim();
+        if (s.isEmpty()) continue;
+
+        // Debug opcional (comenta en producción)
+        System.out.println("Analizando símbolo '" + s + "' desde estado " + estadoActual);
+
+        Map<String, String> mapa = transiciones.get(estadoActual);
+        if (mapa == null) {
+            System.out.println("No hay transiciones definidas para el estado " + estadoActual);
+            return false;
+        }
+        if (!mapa.containsKey(s)) {
+            System.out.println("No existe transición para símbolo '" + s + "' en estado " + estadoActual);
+            return false;
+        }
+        estadoActual = mapa.get(s);
+    }
+
+    boolean aceptada = estadosAceptacion != null && estadosAceptacion.contains(estadoActual);
+    System.out.println("Cadena finalizó en estado " + estadoActual + " -> " + (aceptada ? "ACEPTADA" : "RECHAZADA"));
+    return aceptada;
+}
     
     // ✅ Verifica si el autómata cumple las reglas de un AFD
 public boolean esAFDValido() {

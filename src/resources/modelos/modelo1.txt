@@ -1,0 +1,11 @@
+Simbolos: 0,1
+Estados: A,B
+Estado inicial: A
+Estados de aceptación: B
+Transiciones:
+B,B
+B,B
+Cadenas a analizar:
+0,1,0
+1,1,1,0
+0,0,1

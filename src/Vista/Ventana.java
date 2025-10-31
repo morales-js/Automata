@@ -97,6 +97,9 @@ public class Ventana extends javax.swing.JFrame {
         jMenu4 = new javax.swing.JMenu();
         ManualUsuario = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
 
         popupMenu1.setLabel("popupMenu1");
 
@@ -188,6 +191,12 @@ public class Ventana extends javax.swing.JFrame {
         });
         panel.add(txtSimbolos, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 110, 245, -1));
         panel.add(txtInicial, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 140, 245, -1));
+
+        txtFinal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFinalActionPerformed(evt);
+            }
+        });
         panel.add(txtFinal, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 140, 245, -1));
 
         Eaceptacion1.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
@@ -316,6 +325,31 @@ public class Ventana extends javax.swing.JFrame {
         jMenuBar2.add(jMenu4);
 
         jMenu2.setText("Modelos");
+
+        jMenuItem1.setText("Modelo 1");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem1);
+
+        jMenuItem2.setText("Modelo 2");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem2);
+
+        jMenuItem5.setText("Modelo 3");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem5);
+
         jMenuBar2.add(jMenu2);
 
         setJMenuBar(jMenuBar2);
@@ -411,11 +445,10 @@ public class Ventana extends javax.swing.JFrame {
         controlador.anteriorPaso();
     }//GEN-LAST:event_btnAnterior1ActionPerformed
 
+    
     private void btnnuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnuevoActionPerformed
         // TODO add your handling code here:
     controlador.crearNuevoAutomata();
-    
-
     }//GEN-LAST:event_btnnuevoActionPerformed
 
     private void AbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AbrirActionPerformed
@@ -429,33 +462,62 @@ public class Ventana extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu4ActionPerformed
 
     private void ManualUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ManualUsuarioActionPerformed
-        // TODO add your handling code here:
-        try {
-            // Obtén el archivo PDF dentro del proyecto (por ejemplo, en src/resources/manual.pdf)
-            InputStream pdfStream = getClass().getResourceAsStream("/resources/manual.pdf");
-            if (pdfStream == null) {
-                JOptionPane.showMessageDialog(this, "No se encontró el manual PDF dentro del proyecto.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+     try {
+        // Crear el archivo PDF
+        com.itextpdf.text.Document documento = new com.itextpdf.text.Document();
+         String ruta = System.getProperty("user.home") + File.separator + "Documents" + File.separator + "AFD_Simulador";
+         new File(ruta).mkdirs();
+         com.itextpdf.text.pdf.PdfWriter.getInstance(documento, new java.io.FileOutputStream(ruta + File.separator + "Manual_Usuario_AFD.pdf"));
 
-            // Preguntar al usuario dónde guardar el PDF
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setSelectedFile(new File("ManualUsuario.pdf"));
-            int option = fileChooser.showSaveDialog(this);
-            if (option == JFileChooser.APPROVE_OPTION) {
-                File destino = fileChooser.getSelectedFile();
+        documento.open();
 
-                // Copiar el PDF del proyecto a la ubicación seleccionada
-                Files.copy(pdfStream, destino.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+        // Título
+        com.itextpdf.text.Font tituloFont = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.HELVETICA, 18, com.itextpdf.text.Font.BOLD);
+        com.itextpdf.text.Paragraph titulo = new com.itextpdf.text.Paragraph("Manual de Usuario - Simulador de AFD", tituloFont);
+        titulo.setAlignment(com.itextpdf.text.Element.ALIGN_CENTER);
+        documento.add(titulo);
+        documento.add(new com.itextpdf.text.Paragraph(" "));
 
-                JOptionPane.showMessageDialog(this, "Manual descargado correctamente en:\n" + destino.getAbsolutePath());
-            }
+        // Contenido principal
+        String contenido = """
+        Este programa permite cargar, visualizar y simular autómatas finitos deterministas (AFD).
+        
+        Funcionalidades principales:
+        1. Cargar un archivo .txt con la definición del autómata.
+        2. Visualizar su grafo (generado automáticamente con Graphviz).
+        3. Analizar cadenas para determinar si son aceptadas o rechazadas.
+        4. Crear nuevos autómatas de forma manual con el botón "Nuevo".
+        
+        Estructura esperada del archivo:
+        
+        Simbolos: 0,1
+        Estados: Q0,Q1,Q2
+        Estado inicial: Q0
+        Estados de aceptación: Q2
+        Transiciones:
+        Q0->Q1,Q0
+        Q1->Q2,Q0
+        Q2->Q2,Q1
+        Cadenas a analizar:
+        0,1,0
+        1,0,1,1
+        
+        Recomendaciones:
+        - Asegúrese de tener Graphviz instalado y configurado en el sistema.
+        - Los archivos deben tener formato de texto plano (.txt).
+        - Puede reiniciar y analizar paso a paso una simulación desde la interfaz.
+        """;
 
-            pdfStream.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error al descargar el manual: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        com.itextpdf.text.Paragraph cuerpo = new com.itextpdf.text.Paragraph(contenido);
+        documento.add(cuerpo);
+
+        documento.close();
+
+        javax.swing.JOptionPane.showMessageDialog(this, "Manual de usuario generado correctamente como 'Manual_Usuario_AFD.pdf'. En DOCUMENTOS/ AFD SIMULADOR");
+    } catch (Exception e) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Error al generar el PDF: " + e.getMessage());
+        e.printStackTrace();
+    }
     }//GEN-LAST:event_ManualUsuarioActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
@@ -464,6 +526,25 @@ public class Ventana extends javax.swing.JFrame {
         ini.setVisible(true);
         dispose();
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        controlador.cargarModeloDesdeArchivo("modelo1");
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void txtFinalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFinalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFinalActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        controlador.cargarModeloDesdeArchivo("modelo2");
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+        controlador.cargarModeloDesdeArchivo("modelo3");
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     
      public void mostrarDatos(Automata automata) {
@@ -531,9 +612,6 @@ public class Ventana extends javax.swing.JFrame {
     
     
     //limpiarImagen
-
-
-
     public void mostrarResultado(String cadena, boolean aceptada) {
                JOptionPane.showMessageDialog(this, "Cadena " + cadena + " → " + (aceptada ? "ACEPTADA ✅" : "RECHAZADA ❌"));
     }
@@ -555,6 +633,12 @@ public class Ventana extends javax.swing.JFrame {
     );
     lblImagen.setIcon(new ImageIcon(scaled));
 }
+  // MODELOS mostrar CONTENIDO EN JTEXTAREA
+  public void mostrarContenidoArchivo(String contenido) {
+    textArea.setText(contenido);
+}
+  
+  
     
     
     
@@ -593,7 +677,7 @@ public class Ventana extends javax.swing.JFrame {
     
   
 
-
+//mostrar
 
 
 
@@ -710,8 +794,11 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar2;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

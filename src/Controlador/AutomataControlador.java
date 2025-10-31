@@ -5,12 +5,15 @@ import Modelo.GrafoGenerator;
 import Modelo.LectorDeArchivo;
 import Modelo.Simulador;
 import Vista.Ventana;
+import java.io.BufferedReader;
 
 import java.io.File;
+import java.io.FileReader;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 public class AutomataControlador {
-
+//Modelo.Automata nuevo
     private Ventana vista;
     private Automata automata;
     private Simulador simulador;
@@ -161,14 +164,53 @@ public class AutomataControlador {
 
     Modelo.Automata nuevo = nuevoDialog.getAutomataCreado();
     if (nuevo != null) {
-        this.automata = nuevo;
+    this.automata = nuevo;
+    vista.mostrarDatos(automata);
+    vista.mostrarValidezAFD(automata.esAFDValido());
+    JOptionPane.showMessageDialog(vista, "Nuevo autómata cargado correctamente.");
+    }
+  }
+
+
+  
+// MODELOS
+
+    public void cargarModeloDesdeArchivo(String nombreModelo) {
+        try {
+        File archivo = new File("src/resources/modelos/" + nombreModelo + ".txt");
+        if (!archivo.exists()) {
+            JOptionPane.showMessageDialog(vista, "No se encontró el archivo del modelo: " + nombreModelo);
+            return;
+        }
+
+        // 🔹 Leer el contenido completo del archivo
+        StringBuilder contenido = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                contenido.append(linea).append("\n");
+            }
+        }
+
+        // 🔹 Cargar el autómata normalmente
+        automata = Modelo.LectorDeArchivo.leerDesdeArchivo(archivo);
         vista.mostrarDatos(automata);
         vista.mostrarValidezAFD(automata.esAFDValido());
-        JOptionPane.showMessageDialog(vista, "Nuevo autómata cargado correctamente.");
-    } else {
-        JOptionPane.showMessageDialog(vista, "No se creó ningún autómata nuevo.");
+
+        // 🔹 Mostrar el contenido en el JTextArea
+        vista.mostrarContenidoArchivo(contenido.toString());
+
+        // 🔹 Generar el grafo
+        GrafoGenerator.generarGrafo(automata, "automata", null, null, null, null);
+        vista.mostrarImagen("automata.png");
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(vista, "Error al cargar el modelo: " + e.getMessage());
     }
 }
+
+
+
 
 
 }

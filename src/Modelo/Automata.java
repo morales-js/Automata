@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Modelo;
-
+        
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +12,7 @@ import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author moralesjs_
- */
+ */ //
 public class Automata {
     private List<String> simbolos = new ArrayList<>();
     private List<String> estados = new ArrayList<>();
